@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.dit.algafood.AlgafoodApplication;
 import com.dit.algafood.domain.entities.Cozinha;
+import com.dit.algafood.domain.repository.CozinhaRepository;
 
 public class BuscaCozinhaMain {
 	
@@ -16,9 +17,9 @@ public class BuscaCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
-		Cozinha cozinha = cadastroCozinha.buscar(1L);
+		Cozinha cozinha = cozinhaRepository.buscar(1L);
 		
 		System.out.println(cozinha);
 		System.out.println(cozinha.getNome() + " " + cozinha.getId());

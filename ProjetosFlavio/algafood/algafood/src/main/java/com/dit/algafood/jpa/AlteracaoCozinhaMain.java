@@ -1,13 +1,12 @@
 package com.dit.algafood.jpa;
 
-import java.util.List;
-
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import com.dit.algafood.AlgafoodApplication;
 import com.dit.algafood.domain.entities.Cozinha;
+import com.dit.algafood.domain.repository.CozinhaRepository;
 
 public class AlteracaoCozinhaMain {
 	
@@ -16,7 +15,7 @@ public class AlteracaoCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha p1 = new Cozinha();
 		p1.setNome("Japoneja");
@@ -24,8 +23,8 @@ public class AlteracaoCozinhaMain {
 		Cozinha p2 = new Cozinha();
 		p2.setNome("Holandeza");
 		
-		cadastroCozinha.salvar(p1);
-		cadastroCozinha.salvar(p2);
+		cozinhaRepository.salvar(p1);
+		cozinhaRepository.salvar(p2);
 		
 	}
 }
