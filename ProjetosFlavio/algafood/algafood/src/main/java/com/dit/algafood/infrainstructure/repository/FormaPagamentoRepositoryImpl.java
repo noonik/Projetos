@@ -15,30 +15,30 @@ import com.dit.algafood.domain.repository.FormaPagamentoRepository;
 public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository {
 
 	@PersistenceContext
-	private EntityManager mananger;
+	private EntityManager manager;
 	
 	@Override
 	public List<FormaPagamento> listar() {
-		return mananger.createQuery(" from FormaPagamento ", FormaPagamento.class)
+		return manager.createQuery(" from FormaPagamento ", FormaPagamento.class)
 				.getResultList();
 	}
 
 	@Override
 	public FormaPagamento buscar(Long id) {
-		return mananger.find(FormaPagamento.class, id);
+		return manager.find(FormaPagamento.class, id);
 	}
 
 	@Transactional
 	@Override
 	public FormaPagamento salvar(FormaPagamento formaPagamento) {
-		return mananger.merge(formaPagamento);
+		return manager.merge(formaPagamento);
 	}
 
 	@Transactional
 	@Override
 	public void remover(FormaPagamento formaPagamento) {
 		formaPagamento = buscar(formaPagamento.getId());
-		mananger.remove(formaPagamento);
+		manager.remove(formaPagamento);
 	}
 
 }
