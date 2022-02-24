@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dit.algafood.api.model.CozinhasRepresentationsModel;
 import com.dit.algafood.domain.entities.Cozinha;
 import com.dit.algafood.domain.repository.CozinhaRepository;
+import com.dit.algafood.domain.service.CozinhaService;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
@@ -28,6 +29,9 @@ public class CozinhaController {
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CozinhaService cozinhaService;
 	
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public List<Cozinha> listar(){
@@ -51,7 +55,7 @@ public class CozinhaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
-		return cozinhaRepository.salvar(cozinha);
+		return cozinhaService.salvar(cozinha);
 	}
 	
 	@PutMapping("/{cozinhaId}")
@@ -61,7 +65,7 @@ public class CozinhaController {
 		//cozinhaAtual.setNome(cozinha.getNome());
 		if (cozinhaAtual != null ) {
 			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-			cozinhaRepository.salvar(cozinhaAtual);
+			cozinhaService.salvar(cozinhaAtual);
 			return ResponseEntity.ok(cozinhaAtual);
 		}
 		return ResponseEntity.notFound().build();
