@@ -1,14 +1,12 @@
 package com.dit.algafood.jpa;
 
-import java.util.List;
-
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import com.dit.algafood.AlgafoodApplication;
 import com.dit.algafood.domain.entities.Cozinha;
-import com.dit.algafood.domain.repository.CozinhaRepository;
+import com.dit.algafood.domain.service.CozinhaService;
 
 public class ExcluirCozinhaMain {
 	
@@ -17,12 +15,12 @@ public class ExcluirCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CozinhaRepository cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
+		CozinhaService cozinhaService = applicationContext.getBean(CozinhaService.class);
 		
 		Cozinha p1 = new Cozinha();
 		p1.setId(1L);
 		
-		cozinhaRepository.remover(p1);
+		cozinhaService.excluir(p1.getId());
 		
 		
 	}
