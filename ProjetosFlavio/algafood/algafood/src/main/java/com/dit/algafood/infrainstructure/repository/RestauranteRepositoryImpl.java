@@ -24,8 +24,6 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 				.getResultList();
 	}
 	
-
-	
 	@Override
 	public Restaurante buscar(Long id) {
 		return manager.find(Restaurante.class, id);
