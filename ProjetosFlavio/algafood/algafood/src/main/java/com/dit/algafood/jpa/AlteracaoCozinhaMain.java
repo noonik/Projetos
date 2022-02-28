@@ -23,8 +23,8 @@ public class AlteracaoCozinhaMain {
 		Cozinha p2 = new Cozinha();
 		p2.setNome("Holandeza");
 		
-		cozinhaRepository.salvar(p1);
-		cozinhaRepository.salvar(p2);
+		cozinhaRepository.save(p1);
+		cozinhaRepository.save(p2);
 		
 	}
 }

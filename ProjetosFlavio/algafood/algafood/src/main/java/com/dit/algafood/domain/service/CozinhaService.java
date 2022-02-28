@@ -1,6 +1,7 @@
 package com.dit.algafood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,20 +20,21 @@ public class CozinhaService {
 	CozinhaRepository cozinhaRepository;
 	
 	public List<Cozinha> listar(){
-		return cozinhaRepository.listar();
+		return cozinhaRepository.findAll();
 	}
 	
 	public Cozinha buscar(Long id) {
-		return cozinhaRepository.buscar(id);
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
+		return cozinha.get();
 	}
 	
 	public Cozinha salvar(Cozinha cozinha) {		
-		return cozinhaRepository.salvar(cozinha);
+		return cozinhaRepository.save(cozinha);
 	}
 	
 	public void excluir(Long cozinhaId) {
 		try {
-			cozinhaRepository.remover(cozinhaId);
+			cozinhaRepository.deleteById(cozinhaId);;
 			
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityEmUsoException(

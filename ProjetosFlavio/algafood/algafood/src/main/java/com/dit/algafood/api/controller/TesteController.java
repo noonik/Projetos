@@ -18,10 +18,10 @@ public class TesteController {
 	@Autowired
 	CozinhaRepository cozinhaRepository;
 	
-	// End-Point de teste
-	@GetMapping("/cozinhas/por-nome")
-	public List<Cozinha> listCozinhasPorNome(@RequestParam("nome") String nome){
+	/* End-Point de teste
+		@GetMapping("/cozinhas/por-nome")
+		public List<Cozinha> listCozinhasPorNome(@RequestParam("nome") String nome){
 		return cozinhaRepository.listarPorNome(nome);
-	}
+		}*/
 
 }

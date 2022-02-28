@@ -2,6 +2,7 @@ package com.dit.algafood.domain.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,29 +33,25 @@ public class RestauranteService {
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
 		Long formaPagamentoId = restaurante.getFormaPagamento().getId();
-		BigDecimal taxaFreteAtual = restaurante.getTaxaFrete();
 		
-		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
-		
-		FormaPagamento formaPagamento = formaPagamentoRepository.buscar(formaPagamentoId);
-		
-		if (taxaFreteAtual != null) {
-			Restaurante restaurante1 = restauranteRepository.buscar(restaurante.getId());
-			BigDecimal taxaFrete = restaurante1.getTaxaFrete();
-			restaurante.setTaxaFrete(taxaFrete);
-		}
-		
-		if (formaPagamento == null ) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro para forma de pagamento com código %d", formaPagamentoId));	
-		}
-		restaurante.setFormaPagamento(formaPagamento);
+		Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException(
+						String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
 		
 		if (cozinha == null) {
 			throw new EntidadeNaoEncontradaException(
 					String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
 		}
 		restaurante.setCozinha(cozinha);
+		
+		FormaPagamento formaPagamento = formaPagamentoRepository.buscar(formaPagamentoId);
+		if (formaPagamento == null ) {
+			throw new EntidadeNaoEncontradaException(
+					String.format("Não existe cadastro para forma de pagamento com código %d", formaPagamentoId));	
+		}
+		restaurante.setFormaPagamento(formaPagamento);
+		
+		
 		
 		return restauranteRepository.salvar(restaurante);
 	}

@@ -22,7 +22,7 @@ public class AdicionarCozinhaMain {
 		p1.setNome("Italiana");
 		p1.setId(1L);
 		
-		cozinhaRepository.salvar(p1);
+		cozinhaRepository.save(p1);
 		
 		
 	}
