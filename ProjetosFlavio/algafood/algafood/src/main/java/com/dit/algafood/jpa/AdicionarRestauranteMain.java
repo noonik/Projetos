@@ -30,7 +30,7 @@ public class AdicionarRestauranteMain {
 		
 		p1.setId(1L);
 		
-		restauranteRepository.salvar(p1);
+		restauranteRepository.save(p1);
 		
 		
 	}

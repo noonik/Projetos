@@ -51,22 +51,12 @@ public class RestauranteService {
 		}
 		restaurante.setFormaPagamento(formaPagamento);
 		
-		
-		
-		return restauranteRepository.salvar(restaurante);
-	}
-	
-	public List<Restaurante> listar(){
-		return restauranteRepository.listar();
-	}
-	
-	public Restaurante buscar(Long id) {
-		return restauranteRepository.buscar(id);
+		return restauranteRepository.save(restaurante);
 	}
 	
 	public void excluir(Long restauranteId) {
 		try {
-			restauranteRepository.remover(restauranteId);
+			restauranteRepository.deleteById(restauranteId);
 			
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityEmUsoException(

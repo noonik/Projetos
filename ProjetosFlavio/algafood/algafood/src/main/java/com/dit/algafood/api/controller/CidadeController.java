@@ -33,12 +33,14 @@ public class CidadeController {
 	}
 	
 	@GetMapping("/{cidadeId}")
-	public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId){
-		Cidade cidade = cidadeService.buscar(cidadeId);
-		if (cidade != null ) {
+	public ResponseEntity<?> buscar(@PathVariable Long cidadeId){
+		try {
+			Cidade cidade = cidadeService.buscar(cidadeId);
 			return ResponseEntity.ok(cidade);
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.badRequest()
+					.body(e.getMessage());
 		}
-		return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
