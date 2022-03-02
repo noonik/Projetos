@@ -11,7 +11,7 @@ import com.dit.algafood.domain.entities.Cozinha;
 @Repository
 public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
 	
-	List<Cozinha> findByNome(String nome);	
+	List<Cozinha> findByNomeContaining(String nome);	
 	Optional<Cozinha> findUnicaByNome(String nome);	
 
 }
