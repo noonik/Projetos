@@ -1,5 +1,8 @@
 package com.dit.algafood.api.controller;
 
+import static com.dit.algafood.infrainstructure.repository.spec.RestauranteSpecs.comFreteGratis;
+import static com.dit.algafood.infrainstructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +69,11 @@ public class TesteController {
 		@GetMapping("/restaurantes/top2-por-nome")
 		public List<Restaurante> top2RestaurantePorNome(String nome){
 		return restauranteRepository.findTop2ByNomeContaining(nome);
+		}
+		
+		@GetMapping("/restaurantes/com-frete-gratis")
+		public List<Restaurante> restaurantesComFreteGratis(String nome){
+		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
 		}
 		
 		@GetMapping("/restaurantes/count-por-cozinha")
