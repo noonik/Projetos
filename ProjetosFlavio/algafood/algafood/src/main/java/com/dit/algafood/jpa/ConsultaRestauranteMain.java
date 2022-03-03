@@ -25,7 +25,7 @@ public class ConsultaRestauranteMain {
 		
 		for (Restaurante restaurante : restaurantes ) {
 			System.out.printf("%s - %f - %s - %s \n", restaurante.getNome(),
-					restaurante.getTaxaFrete(), restaurante.getCozinha().getNome(), restaurante.getFormaPagamento().getDescricao() );
+					restaurante.getTaxaFrete(), restaurante.getCozinha().getNome(), restaurante.getFormasPagamento());
 		}
 		
 		

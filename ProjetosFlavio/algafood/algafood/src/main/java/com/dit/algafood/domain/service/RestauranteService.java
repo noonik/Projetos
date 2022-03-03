@@ -31,9 +31,7 @@ public class RestauranteService {
 	private FormaPagamentoRepository formaPagamentoRepository;
 	
 	public Restaurante salvar(Restaurante restaurante) {
-		Long cozinhaId = restaurante.getCozinha().getId();
-		Long formaPagamentoId = restaurante.getFormaPagamento().getId();
-		
+		Long cozinhaId = restaurante.getCozinha().getId();		
 		Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
 				.orElseThrow(() -> new EntidadeNaoEncontradaException(
 						String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
@@ -43,13 +41,6 @@ public class RestauranteService {
 					String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
 		}
 		restaurante.setCozinha(cozinha);
-		
-		FormaPagamento formaPagamento = formaPagamentoRepository.buscar(formaPagamentoId);
-		if (formaPagamento == null ) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro para forma de pagamento com código %d", formaPagamentoId));	
-		}
-		restaurante.setFormaPagamento(formaPagamento);
 		
 		return restauranteRepository.save(restaurante);
 	}
