@@ -22,8 +22,9 @@ insert into cidade (nome, estado_id) values ('Florianópolis', 2)
 insert into cidade (nome, estado_id) values ('curitiba', 3)
 insert into cidade (nome, estado_id) values ('Belo Horizonte', 4)
 
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Coxinhas Prime', '10', 1)
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Pizzas Hut', '9.50', 2)
-insert into restaurante (nome, taxa_frete, cozinha_id) values ('Zé do Churras', '15', 3)
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, endereco_cep, endereco_logadouro, endereco_numero, endereco_complemento, endereco_bairro) values ('Coxinhas Prime', '10', 1, now(), now(), 1, '06551-060', 'Rua Antonio julio dos Santos', '201', 'AP 501 bl5', 'paraisópolis')
+
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Pizzas Hut', '9.50', 2, now(), now())
+insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Zé do Churras', '15', 3, now(), now())
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3) 

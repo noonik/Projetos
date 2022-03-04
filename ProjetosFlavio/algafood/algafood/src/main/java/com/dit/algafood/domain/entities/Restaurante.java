@@ -1,6 +1,8 @@
 package com.dit.algafood.domain.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,8 +46,19 @@ public class Restaurante {
 	@JoinColumn(name = "cozinha_id")
 	private Cozinha cozinha;
 	
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
+	
+	@JsonIgnore
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime(6)")
+	private LocalDateTime dataCadastro;
+	
+	@JsonIgnore
+	@UpdateTimestamp
+	@Column(nullable = false)
+	private LocalDateTime dataAtualizacao;
 	
 	@JsonIgnore
 	@ManyToMany
