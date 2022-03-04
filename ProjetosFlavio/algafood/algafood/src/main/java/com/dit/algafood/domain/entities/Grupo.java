@@ -1,21 +1,24 @@
 package com.dit.algafood.domain.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cidade {
-
+@Entity
+public class Grupo {
+	
 	@Id
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +26,9 @@ public class Cidade {
 	
 	private String nome;
 	
-	@JoinColumn(name = "estado_id")
-	@ManyToOne
-	private Estado estado;
-	
-	
+	@ManyToMany
+	@JoinTable(name = "grupo_permissao",
+			joinColumns = @JoinColumn(name = "grupo_id"),
+			inverseJoinColumns = @JoinColumn(name = "permissao_id"))	
+	private List<Permissao> permissoes = new ArrayList<>();
 }

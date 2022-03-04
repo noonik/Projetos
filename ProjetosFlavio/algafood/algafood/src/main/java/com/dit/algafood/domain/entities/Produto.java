@@ -1,7 +1,8 @@
 package com.dit.algafood.domain.entities;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,21 +12,22 @@ import javax.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Data
 @Entity
+@Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cidade {
+public class Produto {
 
 	@Id
-	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@EqualsAndHashCode.Include
+	private long id;
 	
 	private String nome;
+	private String descricao;
+	private BigDecimal preco;
+	private boolean ativo;
 	
-	@JoinColumn(name = "estado_id")
 	@ManyToOne
-	private Estado estado;
-	
+	private Restaurante restaurante;
 	
 }

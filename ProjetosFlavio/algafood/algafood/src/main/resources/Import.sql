@@ -28,3 +28,5 @@ insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atual
 insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Zé do Churras', '15', 3, now(), now())
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3) 
+
+
