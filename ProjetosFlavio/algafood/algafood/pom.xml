@@ -42,7 +42,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--
+		
+		<!-- Drive de banco de dados teste
 		<dependency>
     		<groupId>com.h2database</groupId>
     		<artifactId>h2</artifactId>
@@ -50,17 +51,19 @@
 		</dependency>
 		-->
 		
+		<!-- Drive de banco de dados ativo -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!--
+		
+		<!-- Versionamento de banco de dados -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
-		-->
+		
 		
 		<dependency>
 			<groupId>org.projectlombok</groupId>

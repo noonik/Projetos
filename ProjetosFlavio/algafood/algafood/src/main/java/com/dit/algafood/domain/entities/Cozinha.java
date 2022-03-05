@@ -9,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonRootName("cozinha")
 @Data

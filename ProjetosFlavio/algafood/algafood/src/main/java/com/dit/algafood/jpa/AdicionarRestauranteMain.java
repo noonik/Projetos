@@ -7,9 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
 import com.dit.algafood.AlgafoodApplication;
-import com.dit.algafood.domain.entities.Cozinha;
 import com.dit.algafood.domain.entities.Restaurante;
-import com.dit.algafood.domain.repository.CozinhaRepository;
 import com.dit.algafood.domain.repository.RestauranteRepository;
 
 public class AdicionarRestauranteMain {

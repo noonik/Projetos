@@ -1,6 +1,5 @@
 package com.dit.algafood.jpa;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.boot.WebApplicationType;
