@@ -1,4 +1,6 @@
 
+ 
+
     create table cidade (
        id bigint not null auto_increment,
         nome varchar(255),
@@ -33,6 +35,38 @@
     create table grupo_permissao (
        grupo_id bigint not null,
         permissao_id bigint not null
+    ) engine=InnoDB
+
+    create table item_pedido (
+       id bigint not null auto_increment,
+        obervacao varchar(255),
+        preco_total decimal(19,2),
+        preco_unitario decimal(19,2),
+        quantidade integer,
+        pedido_id bigint not null,
+        produto_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+
+    create table pedido (
+       id bigint not null auto_increment,
+        data_cancelamento datetime(6),
+        data_confirmacao datetime(6),
+        data_criacao datetime(6),
+        data_entrega datetime(6),
+        endereco_bairro varchar(255),
+        endereco_cep varchar(255),
+        endereco_complemento varchar(255),
+        endereco_logadouro varchar(255),
+        endereco_numero varchar(255),
+        sub_total decimal(19,2),
+        taxa_frete decimal(19,2),
+        valor_total decimal(19,2),
+        usuario_cliente_id bigint not null,
+        endereco_cidade_id bigint,
+        forma_pagamento_id bigint not null,
+        restaurante_id bigint not null,
+        primary key (id)
     ) engine=InnoDB
 
     create table permissao (
@@ -88,55 +122,84 @@
     ) engine=InnoDB
 
     alter table cidade 
-       add constraint FKcidade_estado
+       add constraint FKkworrwk40xj58kevvh3evi500 
        foreign key (estado_id) 
        references estado (id)
 
     alter table grupo_permissao 
-       add constraint FKgrupo_permissao_permissao
+       add constraint FKh21kiw0y0hxg6birmdf2ef6vy 
        foreign key (permissao_id) 
        references permissao (id)
 
     alter table grupo_permissao 
-       add constraint FKgrupo_permissao_grupo 
+       add constraint FKta4si8vh3f4jo3bsslvkscc2m 
        foreign key (grupo_id) 
        references grupo (id)
 
+    alter table item_pedido 
+       add constraint FK60ym08cfoysa17wrn1swyiuda 
+       foreign key (pedido_id) 
+       references pedido (id)
+
+    alter table item_pedido 
+       add constraint FKtk55mn6d6bvl5h0no5uagi3sf 
+       foreign key (produto_id) 
+       references produto (id)
+
+    alter table pedido 
+       add constraint FKcccmjvm9ytuxbe00h3wmtm77y 
+       foreign key (usuario_cliente_id) 
+       references usuario (id)
+
+    alter table pedido 
+       add constraint FKk987vfg9cpgx7qxj3166fdqig 
+       foreign key (endereco_cidade_id) 
+       references cidade (id)
+
+    alter table pedido 
+       add constraint FKqaa411xsl0xu4tkvt1wpccd3b 
+       foreign key (forma_pagamento_id) 
+       references forma_pagamento (id)
+
+    alter table pedido 
+       add constraint FK3eud5cqmgsnltyk704hu3qj71 
+       foreign key (restaurante_id) 
+       references restaurante (id)
+
     alter table produto 
-       add constraint FKproduto_restaurante
+       add constraint FKb9jhjyghjcn25guim7q4pt8qx 
        foreign key (restaurante_id) 
        references restaurante (id)
 
     alter table restaurante 
-       add constraint FKrestaurante_cozinha
+       add constraint FK76grk4roudh659skcgbnanthi 
        foreign key (cozinha_id) 
        references cozinha (id)
 
     alter table restaurante 
-       add constraint FKrestaurante_cidade
+       add constraint FKbc0tm7hnvc96d8e7e2ulb05yw 
        foreign key (endereco_cidade_id) 
        references cidade (id)
 
     alter table restaurante_forma_pagamento 
-       add constraint FKrest_form_pagt_form_pagt
+       add constraint FK7aln770m80358y4olr03hyhh2 
        foreign key (forma_pagamento_id) 
        references forma_pagamento (id)
 
     alter table restaurante_forma_pagamento 
-       add constraint FKrest_form_pagt_form_rest 
+       add constraint FKa30vowfejemkw7whjvr8pryvj 
        foreign key (restaurante_id) 
        references restaurante (id)
 
     alter table usuario_grupo 
-       add constraint FKusuario_grupo_grupo 
+       add constraint FKk30suuy31cq5u36m9am4om9ju 
        foreign key (grupo_id) 
        references grupo (id)
 
     alter table usuario_grupo 
-       add constraint FKusuario_grupo_usuario
+       add constraint FKdofo9es0esuiahyw2q467crxw 
        foreign key (usuario_id) 
        references usuario (id)
-       
 insert into cozinha (nome) values ('tailandeza')
 insert into cozinha (nome) values ('Chinesa')
 insert into cozinha (nome) values ('Indiana')
@@ -159,5 +222,3 @@ insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atual
 insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Pizzas Hut', '9.50', 2, now(), now())
 insert into restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Zé do Churras', '15', 3, now(), now())
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3)
-
-   
