@@ -9,34 +9,27 @@ import com.dit.algafood.domain.entities.Cozinha;
 import com.dit.algafood.domain.entities.Restaurante;
 import com.dit.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.dit.algafood.domain.exception.EntityEmUsoException;
-import com.dit.algafood.domain.repository.CozinhaRepository;
-import com.dit.algafood.domain.repository.FormaPagamentoRepository;
 import com.dit.algafood.domain.repository.RestauranteRepository;
 
 @Service
 public class RestauranteService {
 	
+	private static final String MSG_RESTAURANTE_EM_USO = "Estado de código %d não pode ser "
+			+ "removido, pois esta em uso";
+
+	private static final String MSG_RESTAURANTE_NAO_LOCALIZADO = "Não existe cadastro de estado com código %d ";
+
 	@Autowired
 	private RestauranteRepository restauranteRepository;
 	
 	@Autowired
-	private CozinhaRepository cozinhaRepository;
+	private CozinhaService cozinhaService;
 	
-	@Autowired
-	private FormaPagamentoRepository formaPagamentoRepository;
 	
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();		
-		Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException(
-						String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
-		
-		if (cozinha == null) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
-		}
+		Cozinha cozinha = cozinhaService.localizarCozinha(cozinhaId);
 		restaurante.setCozinha(cozinha);
-		
 		return restauranteRepository.save(restaurante);
 	}
 	
@@ -46,13 +39,20 @@ public class RestauranteService {
 			
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityEmUsoException(
-					String.format("Estado de código %d não pode ser "
-							+ "removido, pois esta em uso", restauranteId));  
+					String.format(MSG_RESTAURANTE_EM_USO, restauranteId));  
 			
 		} catch (EmptyResultDataAccessException e){
 			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de estado com código %d", restauranteId));
+					String.format(MSG_RESTAURANTE_NAO_LOCALIZADO, restauranteId));
 		}
 	}	
+	
+	
+	public Restaurante LocalizarRestaurante(Long restauranteId) {
+		return restauranteRepository.findById(restauranteId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException(
+						String.format(MSG_RESTAURANTE_NAO_LOCALIZADO, restauranteId)));
+	}
+	
 	
 }

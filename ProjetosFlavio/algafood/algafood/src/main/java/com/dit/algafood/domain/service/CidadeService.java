@@ -18,35 +18,36 @@ import com.dit.algafood.domain.repository.EstadoRepository;
 @Service
 public class CidadeService {
 	
+	private static final String MSG_ESTADO_EM_USO 
+			= "estado de código %d não pode ser "
+			+ "removido, pois esta em uso";
+
+	private static final String MSG_ESTADO_NAO_ENCONTRADO 
+			= "Não existe cadastro de estado com código %d";
+	
+	private static final String MSG_CIDADE_NAO_ENCONTRADO 
+	= "Não existe cadastro de cidade com código %d";
+	
+
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	
 	@Autowired
-	private EstadoRepository estadoRepository;
+	private EstadoService estadoService;
+	
 	
 	public List<Cidade> listar(){
 		return cidadeRepository.findAll();
 	}
 	
 	public Cidade buscar(Long id) {
-		Optional<Cidade> cidade = cidadeRepository.findById(id);
-		if (cidade.isEmpty()) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de estado com o código", id));
-		}
-		return cidade.get();
+		return localizarCidade(id);
 	}
 
 	public Cidade salvar(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
-		Optional<Estado> estado = estadoRepository.findById(estadoId);
-		
-		if (estado.isEmpty()) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de estado com o código", estadoId));
-		}
-		cidade.setEstado(estado.get());
-		
+		Estado estado = estadoService.localizarEstado(estadoId);
+		cidade.setEstado(estado);	
 		return cidadeRepository.save(cidade);
 	}
 	
@@ -56,14 +57,18 @@ public class CidadeService {
 			
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityEmUsoException(
-					String.format("Estado de código %d não pode ser "
-							+ "removido, pois esta em uso", cidadeId));  
+					String.format(MSG_ESTADO_EM_USO, cidadeId));  
 			
 		} catch (EmptyResultDataAccessException e){
 			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de estado com código %d", cidadeId));
+					String.format(MSG_ESTADO_NAO_ENCONTRADO, cidadeId));
 		}
 	}	
+	
+	public Cidade localizarCidade(Long cidadeId) {
+		return cidadeRepository.findById(cidadeId)
+				.orElseThrow(() -> new EntidadeNaoEncontradaException(MSG_CIDADE_NAO_ENCONTRADO));
+	}
 	
 	
 }

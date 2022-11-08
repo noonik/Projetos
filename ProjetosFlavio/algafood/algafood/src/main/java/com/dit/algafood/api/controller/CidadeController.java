@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dit.algafood.domain.entities.Cidade;
@@ -33,14 +34,8 @@ public class CidadeController {
 	}
 	
 	@GetMapping("/{cidadeId}")
-	public ResponseEntity<?> buscar(@PathVariable Long cidadeId){
-		try {
-			Cidade cidade = cidadeService.buscar(cidadeId);
-			return ResponseEntity.ok(cidade);
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest()
-					.body(e.getMessage());
-		}
+	public Cidade buscar(@PathVariable Long cidadeId){
+			return cidadeService.localizarCidade(cidadeId);	
 	}
 	
 	@PostMapping
@@ -57,28 +52,17 @@ public class CidadeController {
 	}
 	
 	@PutMapping("/{cidadeId}")
-	public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId,
+	public Cidade atualizar(@PathVariable Long cidadeId,
 		@RequestBody Cidade cidade ){
-		Cidade cidadeAtual = cidadeService.buscar(cidadeId);
-		if (cidadeAtual != null ) {
+		Cidade cidadeAtual = cidadeService.localizarCidade(cidadeId);
 			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-			cidadeAtual = cidadeService.salvar(cidadeAtual);
-			return ResponseEntity.ok(cidadeAtual);
-		}
-		return ResponseEntity.notFound().build();
+			return cidadeService.salvar(cidadeAtual); 
 	}
 	
 	@DeleteMapping("/{cidadeId}")
-	public ResponseEntity<Cidade> remover(@PathVariable Long cidadeId){
-		try {
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long cidadeId){
 			cidadeService.excluir(cidadeId);
-			return ResponseEntity.noContent().build();
-			
-		} catch (EntityEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
 	}	
 	
 	
