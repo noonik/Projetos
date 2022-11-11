@@ -8,18 +8,15 @@ import org.springframework.stereotype.Service;
 import com.dit.algafood.domain.entities.Estado;
 import com.dit.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.dit.algafood.domain.exception.EntityEmUsoException;
+import com.dit.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.dit.algafood.domain.repository.EstadoRepository;
 
 @Service
 public class EstadoService {
 	
 	private static final String ESTADO_EM_USO 
-	= "Estado de código %d não pode ser "
-			+ "removido, pois esta em uso";
-	private static final String ESTADO_NAO_ENCONTRADO 
-	= "Não existe cadastro de estado com código %d ";
-	
-	
+	= "Estado de código %d não pode ser removido, pois esta em uso";
+
 	@Autowired
 	EstadoRepository estadoRepository;
 	
@@ -36,15 +33,14 @@ public class EstadoService {
 					String.format(ESTADO_EM_USO, estadoId));  
 			
 		} catch (EmptyResultDataAccessException e){
-			throw new EntidadeNaoEncontradaException(
-					String.format(ESTADO_NAO_ENCONTRADO, estadoId));
+			throw new EstadoNaoEncontradoException(estadoId);
 		}
 	}	
 	
 	
 	public Estado localizarEstado(Long estadoId) {
 		return estadoRepository.findById(estadoId)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException(ESTADO_NAO_ENCONTRADO));
+				.orElseThrow(() -> new EstadoNaoEncontradoException(estadoId));
 	}
 	
 	

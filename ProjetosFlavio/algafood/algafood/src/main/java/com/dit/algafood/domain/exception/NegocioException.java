@@ -1,12 +1,16 @@
 package com.dit.algafood.domain.exception;
 
-public abstract class EntidadeNaoEncontradaException extends NegocioException {
+public class NegocioException extends RuntimeException {
 //public class EntidadeNaoEncontradaException extends ResponseStatusException {
 
 	private static final long serialVersionUID = 1L;
 	
-	public EntidadeNaoEncontradaException (String mensagem) {
+	public NegocioException (String mensagem) {
 		super(mensagem);
+	}
+	
+	public NegocioException (String mensagem, Throwable causa ) {
+		super(mensagem, causa);
 	}
 
 }

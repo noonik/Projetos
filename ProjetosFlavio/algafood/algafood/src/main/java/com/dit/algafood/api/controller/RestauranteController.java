@@ -1,15 +1,11 @@
 package com.dit.algafood.api.controller;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,10 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dit.algafood.domain.entities.Restaurante;
 import com.dit.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.dit.algafood.domain.exception.EntityEmUsoException;
+import com.dit.algafood.domain.exception.NegocioException;
 import com.dit.algafood.domain.repository.RestauranteRepository;
 import com.dit.algafood.domain.service.RestauranteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping(value = "/restaurantes")
@@ -52,7 +47,12 @@ public class RestauranteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurante salvar(@RequestBody Restaurante restaurante) {
+		try {
 			return restauranteService.salvar(restaurante);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+		
 	}
 	
 	@PutMapping("/{restauranteId}")
@@ -60,13 +60,18 @@ public class RestauranteController {
 										@RequestBody Restaurante restaurante ){
 		    Restaurante restauranteAtual = restauranteService.LocalizarRestaurante(restauranteId);
 			BeanUtils.copyProperties(restaurante, restauranteAtual, 
-					"id", "formasPagamento", "endereco", "dataCadastro");
-			return restauranteService.salvar(restauranteAtual);
+					"id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+			
+			try {
+				return restauranteService.salvar(restauranteAtual);
+			} catch (EntidadeNaoEncontradaException e) {
+				throw new NegocioException(e.getMessage(), e);
+			}
 
 		
 	}
 	
-	
+	/*
 	@PatchMapping("/{restauranteId}")
 	public Restaurante atualizarParcial(@PathVariable Long restauranteId,
 										@RequestBody Map<String, Object> campos ){
@@ -79,6 +84,7 @@ public class RestauranteController {
 	
 
 
+	/*
 	private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino ) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
@@ -99,10 +105,9 @@ public class RestauranteController {
 			
 		});
 	}
+	*/
 	
-	
-	
-	
+
 	@DeleteMapping("/{restauranteId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long restauranteId){
